@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: posts
-          image: pallimoon/posts:0.0.1
+          image: pallimoon/posts:latest
