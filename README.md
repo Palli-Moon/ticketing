@@ -26,3 +26,5 @@ While inside the container shell ctrl+C can be used to terminate process, ctrl+d
 Containers are isolated from each other unless explicitly configured. If you create a file in one of two identical containers the other one will not have access to it.
 
 **NOTE:** A default command can not be changed once set, you have to create a new container to have a different default command.
+
+See [here](redis-image/README.md) for build and image making commands.
