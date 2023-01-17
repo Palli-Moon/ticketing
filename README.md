@@ -6,6 +6,7 @@ https://www.udemy.com/course/microservices-with-node-js-and-react/
 
 - `docker run busybox` downloads (if needed), creates the container and runs it.
 - `docker run busybox COMMAND` same as above but runs with default command.
+- `docker run -d busybox` same as above but runs in background.
 - `docker ps` list running containers.
 - `docker ps --all` list all containers.
 - `docker create busybox` creates container and returns id. Does not run it.
@@ -20,6 +21,7 @@ https://www.udemy.com/course/microservices-with-node-js-and-react/
 - `docker exec -it ID123 COMMAND` same as above, but enters the container and allows the user more input and interaction.
 - `docker exec -it ID123 sh` enter the containers shell, allowing full control inside it.
 - `docker run -it busybox sh` runs the container and launches straight into the shell. It is usually better practice to do this in steps; create container with default command, start it and then execute into shell.
+- `docker run -p PORT:CPORT ID123` runs the container with port mapping, mapping the PORT to the container CPORT.
 
 While inside the container shell ctrl+C can be used to terminate process, ctrl+d or \'exit\' can be used to exit the shell entirely.
 
