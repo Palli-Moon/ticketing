@@ -30,3 +30,20 @@ Containers are isolated from each other unless explicitly configured. If you cre
 **NOTE:** A default command can not be changed once set, you have to create a new container to have a different default command.
 
 See [here](redis-image/README.md) for build and image making commands.
+
+# Kubernetes
+
+- `kubectl apply -f asdf.yaml` process config file.
+- `kubectl apply -f k8s` can also be applied to directories.
+- `kubectl get pods` lists pods. Similar to `docker ps`.
+- `kubectl get deployments` lists deployments.
+- `kubectl exec -it PODNAME -- COMMAND` run a command in the pod. Similar to `docker exec`.
+- `kubectl logs PODNAME` retrieves STDOUT logs from the pod. Similar to `docker logs`.
+- `kubectl delete pod PODNAME` deletes given pod.
+- `kubectl delete deployment DEPLNAME` deletes given deployment.
+- `kubectl describe pod PODNAME` prints some information about the pod.
+- `kubectl describe deployment DEPLNAME` prints some information about the deployment.
+
+# Gitbash Alias
+
+`code ~/.bashrc` to edit gitbashrc file and add `alias k="kubectl"` to alias _kubectl_ to _k_.
