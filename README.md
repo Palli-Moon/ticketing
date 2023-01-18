@@ -56,3 +56,21 @@ See [here](redis-image/README.md) for build and image making commands.
 
 Install ingress-nginx:
 https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
+
+# Skaffold
+
+Install Skaffold at:
+https://skaffold.dev/
+Easiest to use Chocolatey for Windows installation.
+
+Run `skaffold dev` to build entire cluster with file watchers!
+If installed with Chocolatey, ctrl+c will not clean up automatically afterwards. Run `skaffold delete` to clean up manually.
+
+# Create-react-app env variables
+
+```
+ENV CI=true
+ENV WDS_SOCKET_PORT=0
+```
+
+These environment variables are necessary to host an app created using create-react-app in a docker container.
