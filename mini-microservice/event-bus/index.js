@@ -9,11 +9,11 @@ const events = [];
 
 app.post('/events', (req, res) => {
   const event = req.body;
-
+  console.log('Received Event', event);
   events.push(event);
 
   axios
-    .post('http://posts-clusterip-srv:4000/events', event) // Posts
+    .post('http://posts-srv:4000/events', event) // Posts
     .catch((err) => console.error(err.message));
   // axios
   //   .post('http://localhost:4001/events', event) // Comments
