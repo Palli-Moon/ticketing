@@ -38,12 +38,14 @@ See [here](redis-image/README.md) for build and image making commands.
 - `kubectl apply -f k8s` can also be applied to directories.
 - `kubectl get pods` lists pods. Similar to `docker ps`.
 - `kubectl get deployments` lists deployments.
+- `kubectl get services` lists services.
 - `kubectl exec -it PODNAME -- COMMAND` run a command in the pod. Similar to `docker exec`.
 - `kubectl logs PODNAME` retrieves STDOUT logs from the pod. Similar to `docker logs`.
 - `kubectl delete pod PODNAME` deletes given pod.
 - `kubectl delete deployment DEPLNAME` deletes given deployment.
 - `kubectl describe pod PODNAME` prints some information about the pod.
 - `kubectl describe deployment DEPLNAME` prints some information about the deployment.
+- `kubectl describe service SERVNAME` prins some information about the service.
 - `kubectl rollout restart deployment DEPLNAME` rolls out and restarts the deployment. Can be used to apply changes to a pod with the _latest_ tag.
 
 # Gitbash Alias
