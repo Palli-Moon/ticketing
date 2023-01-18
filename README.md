@@ -51,3 +51,8 @@ See [here](redis-image/README.md) for build and image making commands.
 # Gitbash Alias
 
 `code ~/.bashrc` to edit gitbashrc file and add `alias k="kubectl"` to alias _kubectl_ to _k_.
+
+# Ingress-nginx
+
+Install ingress-nginx:
+https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
