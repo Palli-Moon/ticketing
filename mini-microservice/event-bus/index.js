@@ -15,15 +15,15 @@ app.post('/events', (req, res) => {
   axios
     .post('http://posts-srv:4000/events', event) // Posts
     .catch((err) => console.error(err.message));
-  // axios
-  //   .post('http://localhost:4001/events', event) // Comments
-  //   .catch((err) => console.error(err.message));
-  // axios
-  //   .post('http://localhost:4002/events', event) // Queries
-  //   .catch((err) => console.error(err.message));
-  // axios
-  //   .post('http://localhost:4003/events', event) // Moderation
-  //   .catch((err) => console.error(err.message));
+  axios
+    .post('http://comments-srv:4001/events', event) // Comments
+    .catch((err) => console.error(err.message));
+  axios
+    .post('http://query-srv:4002/events', event) // Queries
+    .catch((err) => console.error(err.message));
+  axios
+    .post('http://moderation-srv:4003/events', event) // Moderation
+    .catch((err) => console.error(err.message));
 
   res.send({ status: 'OK' });
 });
