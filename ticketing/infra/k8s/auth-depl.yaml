@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: pallimoon/auth
+          image: us.gcr.io/ticketing-dev-375621/auth
 ---
 apiVersion: v1
 kind: Service
