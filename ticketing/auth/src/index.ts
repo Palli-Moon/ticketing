@@ -1,5 +1,6 @@
 import express from 'express';
 import 'express-async-errors';
+import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { currentUserRouter } from './routes/currentuser';
 import { signinRouter } from './routes/signin';
@@ -18,5 +19,17 @@ app.all('*', () => {
   throw new NotFoundError();
 });
 app.use(errorHandler);
+mongoose.set('strictQuery', false); // Supress deprecation warning
 
-app.listen(3000, () => console.log('Listening on port 3000'));
+const start = async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+    console.log('Connected to database');
+  } catch (error) {
+    console.error(error);
+  }
+
+  app.listen(3000, () => console.log('Listening on port 3000'));
+};
+
+start();
