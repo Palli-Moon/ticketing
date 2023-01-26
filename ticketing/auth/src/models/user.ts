@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Password } from '../utils/password';
 
 interface IUser {
   email: string;
@@ -14,6 +15,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+});
+
+// We don't use an arrow function here, becuase it would change the meaning of 'this'
+// In this case, 'this' means the userSchema
+// .pre is a mongoose pre-save hook
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await Password.toHash(this.password);
+  }
+  next();
 });
 
 const UserModel = mongoose.model('User', userSchema);
