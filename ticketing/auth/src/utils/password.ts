@@ -1,22 +1,13 @@
-import { scrypt, randomBytes } from 'crypto';
-import { promisify } from 'util';
+import bcrypt from 'bcryptjs';
 
-const scryptAsync = promisify(scrypt);
-
-// This whole thing is probably better used by bcrypt-nodejs package
-// Storing the salt should not be necessary
 export class Password {
   static async toHash(password: string) {
-    const salt = randomBytes(8).toString('hex');
-    const buffer = (await scryptAsync(password, salt, 64)) as Buffer;
+    const salt = await bcrypt.genSalt();
 
-    return `${buffer.toString('hex')}.${salt}`;
+    return await bcrypt.hash(password, salt);
   }
 
   static async compare(storedPass: string, suppliedPass: string) {
-    const [hashedPass, salt] = storedPass.split('.');
-    const buffer = (await scryptAsync(suppliedPass, salt, 64)) as Buffer;
-
-    return buffer.toString('hex') === hashedPass;
+    return await bcrypt.compare(suppliedPass, storedPass);
   }
 }
