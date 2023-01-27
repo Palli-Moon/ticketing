@@ -47,6 +47,8 @@ See [here](redis-image/README.md) for build and image making commands.
 - `kubectl describe deployment DEPLNAME` prints some information about the deployment.
 - `kubectl describe service SERVNAME` prins some information about the service.
 - `kubectl rollout restart deployment DEPLNAME` rolls out and restarts the deployment. Can be used to apply changes to a pod with the _latest_ tag.
+- `kubectl create secret generic jwt-secret --from-literal=jwt=asdf` creates a secret instance (similar to pod) with the name _jwt-secret_ that has the key-value _jwt=asdf_. **Should absolutely not be added to source control!**
+- `kubectl get secrets` lists secret instances.
 
 # Gitbash Alias
 
