@@ -50,6 +50,8 @@ See [here](redis-image/README.md) for build and image making commands.
 - `kubectl create secret generic jwt-secret --from-literal=jwt=asdf` creates a secret instance (similar to pod) with the name _jwt-secret_ that has the key-value _jwt=asdf_. **Should absolutely not be added to source control!**
 - `kubectl get secrets` lists secret instances.
 
+Secrets - note that a deployment/pod will fail creation if referencing a secret that does not exist.
+
 # Gitbash Alias
 
 `code ~/.bashrc` to edit gitbashrc file and add `alias k="kubectl"` to alias _kubectl_ to _k_.
