@@ -38,7 +38,7 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      'asdf'
+      process.env.JWT_KEY! // ! means we are confident that the value is defined
     );
 
     req.session = {
