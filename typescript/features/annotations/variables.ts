@@ -16,8 +16,8 @@ let truths: boolean[] = [true, true, false];
 let mixed: (string | boolean)[] = [true, 'green'];
 
 // Classes
-class Car {}
-let car: Car = new Car();
+class Car1 {}
+let car1: Car1 = new Car1();
 
 // Object literal
 let point: { x: number; y: number } = {
