@@ -1,6 +1,11 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
 import { app } from '../app';
+
+declare global {
+  var createCookie: () => Promise<string[]>;
+}
 
 let mongo: MongoMemoryServer;
 mongoose.set('strictQuery', false); // Supress deprecation warning
@@ -25,3 +30,11 @@ afterAll(async () => {
   }
   await mongoose.connection.close();
 });
+
+global.createCookie = async () => {
+  const email = 'test@test.com';
+  const password = 'password';
+
+  const res = await request(app).post('/api/users/signup').send({ email, password }).expect(201);
+  return res.get('Set-Cookie');
+};
