@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { app } from '../app';
 
 let mongo: MongoMemoryServer;
+mongoose.set('strictQuery', false); // Supress deprecation warning
 
 // before all hook
 beforeAll(async () => {
@@ -15,9 +16,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  for (const collection of await mongoose.connection.db.collections()) {
-    await collection.deleteMany({});
-  }
+  await mongoose.connection.db.dropDatabase();
 });
 
 afterAll(async () => {

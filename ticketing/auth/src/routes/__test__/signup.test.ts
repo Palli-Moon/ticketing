@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 
 it('returns a 201 on successful signup', async () => {
-  return request(app)
+  await request(app)
     .post('/api/users/signup')
     .send({
       email: 'test@test.com',
@@ -12,7 +12,7 @@ it('returns a 201 on successful signup', async () => {
 });
 
 it('returns a 400 with an invalid email', async () => {
-  return request(app)
+  await request(app)
     .post('/api/users/signup')
     .send({
       email: 'testtestcom',
@@ -22,7 +22,7 @@ it('returns a 400 with an invalid email', async () => {
 });
 
 it('returns a 400 with an invalid password', async () => {
-  return request(app)
+  await request(app)
     .post('/api/users/signup')
     .send({
       email: 'test@test.com',
@@ -33,7 +33,7 @@ it('returns a 400 with an invalid password', async () => {
 
 it('returns a 400 with missing email and password', async () => {
   await request(app).post('/api/users/signup').send({ email: 'test@test.com' }).expect(400);
-  return request(app).post('/api/users/signup').send({ password: 'asdf' }).expect(400);
+  await request(app).post('/api/users/signup').send({ password: 'asdf' }).expect(400);
 });
 
 it('disallows duplicate emails', async () => {
@@ -44,7 +44,7 @@ it('disallows duplicate emails', async () => {
       password: 'password',
     })
     .expect(201);
-  return request(app)
+  await request(app)
     .post('/api/users/signup')
     .send({
       email: 'test@test.com',
