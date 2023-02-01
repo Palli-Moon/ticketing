@@ -8,7 +8,7 @@ const LandingPage = ({ currentUser }) => {
 
 // nextjs specific
 // Always executed on the server EXCEPT when navigating from one page to another while in the app
-LandingPage.getInitialProps = async () => {
+LandingPage.getInitialProps = async ({ req }) => {
   // console.log in here would be written in nodejs (on the server)
 
   // Use this convention to access a service in a different namespace:
@@ -18,10 +18,10 @@ LandingPage.getInitialProps = async () => {
 
   if (typeof window === 'undefined') {
     // We are on the server
+    // use { headers: { Host: 'hostname' } } to help ingress figure out the hostname. It is also set inside req.headers
+    // req.headers will also forward the cookie
     const { data } = await axios.get('http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser', {
-      headers: {
-        Host: 'ticketing.dev',
-      },
+      headers: req.headers,
     });
     return data;
   } else {
