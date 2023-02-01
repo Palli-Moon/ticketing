@@ -2,8 +2,7 @@ import buildClient from '../api/build-client';
 
 const LandingPage = ({ currentUser }) => {
   // console.log in here would be written in chrome (the browser)
-  console.log(currentUser);
-  return <h1>Landing page</h1>;
+  return currentUser ? <h1>You are signed in</h1> : <h1>You are not signed in</h1>;
 };
 
 // nextjs specific
