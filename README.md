@@ -51,6 +51,7 @@ See [here](redis-image/README.md) for build and image making commands.
 - `kubectl create secret generic jwt-secret --from-literal=jwt=asdf` creates a secret instance (similar to pod) with the name _jwt-secret_ that has the key-value _jwt=asdf_. **Should absolutely not be added to source control!**
 - `kubectl get secrets` lists secret instances.
 - `kubectl get namespace` lists namespaces.
+- `kubectl port-forward PODNAME PORTFROM:PORTTO` forwards PORTFROM to PORTTO on the PODNAME temporarily without having to create a configuration. Stops forwarding when hitting CTRL+C.
 
 Secrets - note that a deployment/pod will fail creation if referencing a secret that does not exist.
 
