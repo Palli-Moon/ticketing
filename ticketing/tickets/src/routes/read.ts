@@ -14,4 +14,10 @@ router.get('/api/tickets/:id', async (req: Request, res: Response) => {
   res.send(ticket);
 });
 
+router.get('/api/tickets', async (req: Request, res: Response) => {
+  const tickets = await Ticket.find({});
+
+  res.send(tickets);
+});
+
 export { router as readTicketRouter };
