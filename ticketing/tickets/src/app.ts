@@ -4,6 +4,7 @@ import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { errorHandler, NotFoundError, currentUser } from '@ticketingtutorial/common';
 import { createTicketRouter } from './routes/create';
+import { readTicketRouter } from './routes/read';
 
 const app = express();
 app.set('trust proxy', true);
@@ -17,6 +18,7 @@ app.use(
 app.use(currentUser);
 
 app.use(createTicketRouter);
+app.use(readTicketRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
