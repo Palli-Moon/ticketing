@@ -5,6 +5,7 @@ import { json } from 'body-parser';
 import { errorHandler, NotFoundError, currentUser } from '@ticketingtutorial/common';
 import { createTicketRouter } from './routes/create';
 import { readTicketRouter } from './routes/read';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -19,6 +20,7 @@ app.use(currentUser);
 
 app.use(createTicketRouter);
 app.use(readTicketRouter);
+app.use(updateTicketRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
