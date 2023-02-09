@@ -5,7 +5,7 @@ import { app } from '../app';
 import jwt from 'jsonwebtoken';
 
 declare global {
-  var createCookie: () => string[];
+  var createCookie: (id?: string) => string[];
 }
 
 let mongo: MongoMemoryServer;
@@ -32,9 +32,9 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.createCookie = () => {
+global.createCookie = (id = new mongoose.Types.ObjectId().toHexString()) => {
   const payload = {
-    id: '1234567',
+    id,
     email: 'test@test.com',
   };
   const token = jwt.sign(payload, process.env.JWT_KEY!);
