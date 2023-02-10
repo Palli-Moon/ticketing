@@ -15,7 +15,21 @@ spec:
       containers:
         - name: nats
           image: nats-streaming:0.17.0
-          args: ['-p', '4222', '-m', '8222', '-hbi', '5s', '-hbt', '5s', '-hbf', '2', '-SD', '-cid', 'ticketing'] # commandline options used when creating the container
+          args: [
+              '-p', # port
+              '4222', # -p
+              '-m', # monitoring port
+              '8222', # -m
+              '-hbi', # Heart beat interval. How often hb is sent.
+              '5s', # -hbi
+              '-hbt', # How long each client has to respond
+              '5s', # -hbt
+              '-hbf', # How often each client can fail before NATS assumes it's dead
+              '2', # -hbf
+              '-SD', # Enable STAN debugging output
+              '-cid', # Cluster id
+              'ticketing', # -cid
+            ] # commandline options used when creating the container
 ---
 apiVersion: v1
 kind: Service
