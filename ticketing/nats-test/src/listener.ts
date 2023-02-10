@@ -10,6 +10,11 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('listener connected to NATS');
 
+  stan.on('close', () => {
+    console.log('listener NATS connection closed');
+    process.exit();
+  });
+
   const options = stan.subscriptionOptions().setManualAckMode(true); // Manual ackmode means the message needs to be acknowledged or the service will keep trying to send it
   const subscription = stan.subscribe('ticket:created', 'listenerQueueGroup', options);
   subscription.on('message', (msg: Message) => {
@@ -22,3 +27,7 @@ stan.on('connect', () => {
     msg.ack(); // Acknowledge the message
   });
 });
+
+// Listen for SIGINT and SIGTERM signals (ctrl+c or close) won't work when forcibly closed
+process.on('SIGINT', () => stan.close());
+process.on('SIGTERM', () => stan.close());
