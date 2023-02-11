@@ -15,7 +15,11 @@ stan.on('connect', () => {
     process.exit();
   });
 
-  const options = stan.subscriptionOptions().setManualAckMode(true); // Manual ackmode means the message needs to be acknowledged or the service will keep trying to send it
+  const options = stan
+    .subscriptionOptions()
+    .setDeliverAllAvailable() // Redelivers every available message when the listener comes back up
+    .setDurableName('listenername') // With this and setDeliverAllAvailable only messages that have not been acknowledged will be redelivered. Should be used with queuegroup
+    .setManualAckMode(true); // Manual ackmode means the message needs to be acknowledged or the service will keep trying to send it
   const subscription = stan.subscribe('ticket:created', 'listenerQueueGroup', options);
   subscription.on('message', (msg: Message) => {
     const data = msg.getData();
