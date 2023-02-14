@@ -15,21 +15,7 @@ stan.on('connect', () => {
     process.exit();
   });
 
-  const options = stan
-    .subscriptionOptions()
-    .setDeliverAllAvailable() // Redelivers every available message when the listener comes back up
-    .setDurableName('listenername') // With this and setDeliverAllAvailable only messages that have not been acknowledged will be redelivered. Should be used with queuegroup
-    .setManualAckMode(true); // Manual ackmode means the message needs to be acknowledged or the service will keep trying to send it
-  const subscription = stan.subscribe('ticket:created', 'listenerQueueGroup', options);
-  subscription.on('message', (msg: Message) => {
-    const data = msg.getData();
-
-    if (typeof data === 'string') {
-      console.log(`received event #${msg.getSequence()}, with data: ${data}`);
-    }
-
-    msg.ack(); // Acknowledge the message
-  });
+  new TicketCreatedListener(stan).listen();
 });
 
 // Listen for SIGINT and SIGTERM signals (ctrl+c or close) won't work when forcibly closed
@@ -48,7 +34,12 @@ abstract class Listener {
   }
 
   subscriptionOptions() {
-    return this.client.subscriptionOptions().setDeliverAllAvailable().setManualAckMode(true).setAckWait(this.ackWait).setDurableName(this.queueGroupName);
+    return this.client
+      .subscriptionOptions()
+      .setDeliverAllAvailable() // Redelivers every available message when the listener comes back up
+      .setManualAckMode(true) // Manual ackmode means the message needs to be acknowledged or the service will keep trying to send it
+      .setAckWait(this.ackWait) // Sets acknowledgement timeout
+      .setDurableName(this.queueGroupName); // With this and setDeliverAllAvailable only messages that have not been acknowledged will be redelivered. Should be used with queuegroup
   }
 
   listen() {
@@ -65,5 +56,15 @@ abstract class Listener {
   parseMessage(msg: Message) {
     const data = msg.getData();
     return typeof data === 'string' ? JSON.parse(data) : JSON.parse(data.toString('utf8'));
+  }
+}
+
+class TicketCreatedListener extends Listener {
+  subject = 'ticket:created';
+  queueGroupName = 'payments-service';
+
+  onMessage(data: any, msg: nats.Message): void {
+    console.log('Event data', data);
+    msg.ack();
   }
 }
