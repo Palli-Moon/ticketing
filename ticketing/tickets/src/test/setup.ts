@@ -8,6 +8,8 @@ declare global {
   var createCookie: (id?: string) => string[];
 }
 
+jest.mock('../nats-wrapper'); // use the fake nats-wrapper in __mock__
+
 let mongo: MongoMemoryServer;
 mongoose.set('strictQuery', false); // Supress deprecation warning
 
