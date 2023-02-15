@@ -2,6 +2,8 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Ticket } from '../../models/Ticket';
 
+jest.mock('../../nats-wrapper'); // use the fake nats-wrapper in __mock__
+
 const URI = '/api/tickets';
 const COOKIE = global.createCookie;
 
