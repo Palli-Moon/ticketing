@@ -22,7 +22,8 @@ https://www.udemy.com/course/microservices-with-node-js-and-react/
 - `docker exec -it ID123 sh` enter the containers shell, allowing full control inside it.
 - `docker run -it busybox sh` runs the container and launches straight into the shell. It is usually better practice to do this in steps; create container with default command, start it and then execute into shell.
 - `docker run -p PORT:CPORT ID123` runs the container with port mapping, mapping the PORT to the container CPORT.
-- `docker push ID123` attempte to push the image to dockerhub.
+- `docker build -t TAG` builds a dockerfile with the selected tag. It should be formatted as so: `author/name:version` e.g. `pallimoon/mycontainer:0.0.1`. Version is optional.
+- `docker push TAG` attempt to push the image with the selected tag to dockerhub.
 
 While inside the container shell ctrl+C can be used to terminate process, ctrl+d or \'exit\' can be used to exit the shell entirely.
 
