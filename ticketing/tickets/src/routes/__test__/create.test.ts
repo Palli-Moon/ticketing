@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Ticket } from '../../models/Ticket';
+import { natsWrapper } from '../../nats-wrapper'; // jest will intercept this and use the mock!
 
 const URI = '/api/tickets';
 const COOKIE = global.createCookie;
@@ -40,4 +41,10 @@ it('creates a ticket with valid inputs', async () => {
   expect(tickets.length).toEqual(1);
   expect(tickets[0].title).toEqual(payload.title);
   expect(tickets[0].price).toEqual(payload.price);
+});
+
+it('publishes an event', async () => {
+  const payload = { title: 'asdf', price: 10 };
+  await request(app).post(URI).set('Cookie', COOKIE()).send(payload).expect(201);
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

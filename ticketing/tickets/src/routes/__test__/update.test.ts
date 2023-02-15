@@ -2,6 +2,7 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import { app } from '../../app';
 import { Ticket } from '../../models/Ticket';
+import { natsWrapper } from '../../nats-wrapper';
 
 const URI = '/api/tickets';
 const ID = new mongoose.Types.ObjectId().toHexString();
@@ -45,4 +46,11 @@ it('updates the ticket provided valid inputs', async () => {
 
   expect(updatedTicket!.title).toEqual('new title');
   expect(updatedTicket!.price).toEqual(100);
+});
+
+it('publishes an event', async () => {
+  const ticket = await createTicket();
+  await request(app).put(`${URI}/${ticket.id}`).set('Cookie', COOKIE(userId)).send({ title: 'new title', price: 100 }).expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
