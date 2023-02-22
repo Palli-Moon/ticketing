@@ -3,9 +3,9 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { errorHandler, NotFoundError, currentUser } from '@ticketingtutorial/common';
-import { createTicketRouter } from './routes/create';
-import { readTicketRouter } from './routes/read';
-import { updateTicketRouter } from './routes/update';
+import { createOrdersRouter } from './routes/create';
+import { readOrdersRouter } from './routes/read';
+import { deleteOrdersRouter } from './routes/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,9 +18,9 @@ app.use(
 );
 app.use(currentUser);
 
-app.use(createTicketRouter);
-app.use(readTicketRouter);
-app.use(updateTicketRouter);
+app.use(createOrdersRouter);
+app.use(readOrdersRouter);
+app.use(deleteOrdersRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
