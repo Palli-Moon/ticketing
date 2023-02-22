@@ -4,6 +4,7 @@
            need all the information about a ticket that the ticket service stores, and so on.
 */
 import mongoose from 'mongoose';
+import { Order, OrderStatus } from './Order';
 
 interface ITicket {
   title: string;
@@ -38,6 +39,18 @@ const TicketModel = mongoose.model('Ticket', ticketSchema);
 class Ticket extends TicketModel {
   constructor(attr: ITicket) {
     super(attr);
+  }
+
+  // this may be wrong. Check video 369 if having problems.
+  async isReserved() {
+    const existingOrder = await Order.findOne({
+      ticket: this,
+      status: {
+        $in: [OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Complete],
+      },
+    });
+
+    return !!existingOrder; // Double flipping the value so it's treated like bool
   }
 }
 
