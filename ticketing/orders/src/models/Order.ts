@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@ticketingtutorial/common';
+import { Ticket } from './Ticket';
 
 interface IOrder {
   userId: string;
@@ -43,7 +44,7 @@ const OrderModel = mongoose.model('Order', orderSchema);
 
 class Order extends OrderModel {
   constructor(attr: IOrder) {
-    super(attr);
+    super({ ...attr, ticket: attr.ticket.id }); // good spread Palli!
   }
 }
 
