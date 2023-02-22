@@ -44,7 +44,11 @@ const OrderModel = mongoose.model('Order', orderSchema);
 
 class Order extends OrderModel {
   constructor(attr: IOrder) {
-    super({ ...attr, ticket: attr.ticket.id }); // good spread Palli!
+    if (attr) {
+      super({ ...attr, ticket: attr.ticket._id }); // good spread Palli!
+    } else {
+      super(); // for some very strange reason when using find() or findOne() the constructor is called with no data so this is the only way to fix it
+    }
   }
 }
 

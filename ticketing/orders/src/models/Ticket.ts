@@ -34,6 +34,18 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
+ticketSchema.methods.isReserved = async function () {
+  // CAN NOT BE ARROW FUNCTION
+  const existingOrder = await Order.findOne({
+    ticket: this,
+    status: {
+      $in: [OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Complete],
+    },
+  });
+
+  return !!existingOrder;
+};
+
 const TicketModel = mongoose.model('Ticket', ticketSchema);
 
 class Ticket extends TicketModel {
@@ -44,7 +56,7 @@ class Ticket extends TicketModel {
   // this may be wrong. Check video 369 if having problems.
   async isReserved() {
     const existingOrder = await Order.findOne({
-      ticket: this,
+      ticket: this._id,
       status: {
         $in: [OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Complete],
       },
