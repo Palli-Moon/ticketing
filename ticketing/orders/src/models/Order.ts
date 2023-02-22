@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { OrderStatus } from '@ticketingtutorial/common';
 
 interface IOrder {
   userId: string;
-  status: string;
+  status: OrderStatus;
   expiresAt: Date;
   ticket: Ticket;
 }
@@ -16,6 +17,8 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
+      enum: Object.values(OrderStatus), // forces the values to be in the enum
+      default: OrderStatus.Created, // not super necessary, but nice to have
     },
     expiresAt: {
       type: mongoose.Schema.Types.Date,
