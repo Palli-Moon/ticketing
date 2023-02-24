@@ -1,9 +1,9 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Order } from '../../models/Order';
 import { Ticket } from '../../models/Ticket';
 
 const URI = '/api/orders';
+const COOKIE = global.createCookie;
 
 const buildTicket = async () => {
   const ticket = new Ticket({
@@ -14,7 +14,7 @@ const buildTicket = async () => {
   return ticket;
 };
 
-it('fetches orders fro a particular user', async () => {
+it('fetches orders from a particular user', async () => {
   const ticket1 = await buildTicket();
   const ticket2 = await buildTicket();
   const ticket3 = await buildTicket();
@@ -35,4 +35,21 @@ it('fetches orders fro a particular user', async () => {
   expect(res.body[0].ticket.id).toEqual(ticket2.id);
   expect(res.body[1].id).toEqual(order2.id);
   expect(res.body[1].ticket.id).toEqual(ticket3.id);
+});
+
+it('fetches the order', async () => {
+  const user = COOKIE();
+  const ticket = await buildTicket();
+  const { body: order } = await request(app).post(URI).set('Cookie', user).send({ ticketId: ticket.id }).expect(201);
+
+  const res = await request(app).get(`${URI}/${order.id}`).set('Cookie', user).send().expect(200);
+  expect(res.body.id).toEqual(order.id);
+});
+
+it('returns an error if a user tries to fetch another users order', async () => {
+  const user = COOKIE();
+  const ticket = await buildTicket();
+  const { body: order } = await request(app).post(URI).set('Cookie', user).send({ ticketId: ticket.id }).expect(201);
+
+  await request(app).get(`${URI}/${order.id}`).set('Cookie', COOKIE()).send().expect(401);
 });
