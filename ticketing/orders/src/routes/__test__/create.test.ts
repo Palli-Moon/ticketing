@@ -36,3 +36,5 @@ it('reserves a ticket', async () => {
   await ticket.save();
   await request(app).post(URI).set('Cookie', COOKIE()).send({ ticketId: ticket.id }).expect(201);
 });
+
+it.todo('emits an order created event'); // Cool!
