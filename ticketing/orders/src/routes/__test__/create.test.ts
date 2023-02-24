@@ -25,7 +25,14 @@ it('returns an error if the ticket is reserved', async () => {
     expiresAt: new Date(),
   });
   await order.save();
-  await request(app).post(URI).set('Cookie', COOKIE()).send({ ticketId: ticket._id }).expect(400);
+  await request(app).post(URI).set('Cookie', COOKIE()).send({ ticketId: ticket.id }).expect(400);
 });
 
-it('reserves a ticket', async () => {});
+it('reserves a ticket', async () => {
+  const ticket = new Ticket({
+    title: 'concert',
+    price: 20,
+  });
+  await ticket.save();
+  await request(app).post(URI).set('Cookie', COOKIE()).send({ ticketId: ticket.id }).expect(201);
+});
