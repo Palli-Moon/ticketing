@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
-import { requireAuth, validateRequest, BadRequestError, NotFoundError, OrderStatus } from '@ticketingtutorial/common';
 import { body } from 'express-validator';
 import { Ticket } from '../models/Ticket';
 import { Order } from '../models/Order';
+import { natsWrapper } from '../nats-wrapper';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { requireAuth, validateRequest, BadRequestError, NotFoundError, OrderStatus } from '@ticketingtutorial/common';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60; // may want to be an env or other way where you can adjust this before deploying
@@ -23,7 +25,7 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { ticketId } = req.body;
-    const ticket = (await Ticket.findById(ticketId)) as Ticket; // is this allowed?
+    const ticket = (await Ticket.findById(ticketId)) as Ticket;
 
     if (!ticket) {
       throw new NotFoundError();
@@ -45,7 +47,16 @@ router.post(
 
     await order.save();
 
-    // Publish event here
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt!.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     res.status(201).send(order);
   }
