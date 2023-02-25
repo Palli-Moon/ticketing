@@ -1,6 +1,6 @@
 import { Subjects } from './base/subjects';
 
-export interface OderCancelledEvent {
+export interface OrderCancelledEvent {
   subject: Subjects.OrderCancelled;
   data: {
     id: string;
