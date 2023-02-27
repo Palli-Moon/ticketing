@@ -10,8 +10,8 @@ const router = express.Router();
 // We don't actually want to delete the order completely, but rather cancel it
 router.delete('/api/orders/:orderId', requireAuth, async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const order = await Order.findById(orderId);
-  const ticket = await Ticket.findById(order?.ticket); // Should be enough to populate, but the wrapper is being a bitch
+  const order = await Order.findById(orderId).populate('ticket');
+  // const ticket = await Ticket.findById(order?.ticket); // Should be enough to populate, but the wrapper is being a bitch
 
   if (!order) {
     throw new NotFoundError();
@@ -25,7 +25,7 @@ router.delete('/api/orders/:orderId', requireAuth, async (req: Request, res: Res
   new OrderCancelledPublisher(natsWrapper.client).publish({
     id: order.id,
     ticket: {
-      id: ticket?.id,
+      id: order.ticket.id,
     },
   });
 

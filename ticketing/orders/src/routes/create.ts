@@ -25,7 +25,7 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { ticketId } = req.body;
-    const ticket = (await Ticket.findById(ticketId)) as Ticket;
+    const ticket = await Ticket.findById(ticketId);
 
     if (!ticket) {
       throw new NotFoundError();
@@ -38,7 +38,7 @@ router.post(
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
-    const order = new Order({
+    const order = Order.build({
       userId: req.currentUser!.id,
       status: OrderStatus.Created,
       expiresAt,

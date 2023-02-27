@@ -1,12 +1,23 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@ticketingtutorial/common';
-import { Ticket } from './Ticket';
+import { TicketDoc } from './Ticket';
 
-interface IOrder {
+interface OrderAttrs {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
-  ticket: Ticket;
+  ticket: TicketDoc;
+}
+
+interface OrderDoc extends mongoose.Document {
+  userId: string;
+  status: OrderStatus;
+  expiresAt: Date;
+  ticket: TicketDoc;
+}
+
+interface OrderModel extends mongoose.Model<OrderDoc> {
+  build(attrs: OrderAttrs): OrderDoc;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -40,16 +51,10 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-const OrderModel = mongoose.model('Order', orderSchema);
+orderSchema.statics.build = (attrs: OrderAttrs) => {
+  return new Order(attrs);
+};
 
-class Order extends OrderModel {
-  constructor(attr: IOrder) {
-    if (attr) {
-      super({ ...attr, ticket: attr.ticket._id }); // good spread Palli!
-    } else {
-      super(); // for some very strange reason when using find() or findOne() the constructor is called with no data so this is the only way to fix it
-    }
-  }
-}
+const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
 
 export { Order, OrderStatus };

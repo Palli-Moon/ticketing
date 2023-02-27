@@ -6,9 +6,20 @@
 import mongoose from 'mongoose';
 import { Order, OrderStatus } from './Order';
 
-interface ITicket {
+interface TicketAttrs {
+  id?: string;
   title: string;
   price: number;
+}
+
+export interface TicketDoc extends mongoose.Document {
+  title: string;
+  price: number;
+  isReserved(): Promise<boolean>;
+}
+
+interface TicketModel extends mongoose.Model<TicketDoc> {
+  build(attrs: TicketAttrs): TicketDoc;
 }
 
 const ticketSchema = new mongoose.Schema(
@@ -34,6 +45,13 @@ const ticketSchema = new mongoose.Schema(
   }
 );
 
+ticketSchema.statics.build = (attrs: TicketAttrs) => {
+  return new Ticket({
+    ...attrs,
+    _id: attrs.id ?? new mongoose.Types.ObjectId(),
+  });
+};
+
 ticketSchema.methods.isReserved = async function () {
   // CAN NOT BE ARROW FUNCTION
   const existingOrder = await Order.findOne({
@@ -46,24 +64,6 @@ ticketSchema.methods.isReserved = async function () {
   return !!existingOrder;
 };
 
-const TicketModel = mongoose.model('Ticket', ticketSchema);
-
-class Ticket extends TicketModel {
-  constructor(attr: ITicket) {
-    super(attr);
-  }
-
-  // this may be wrong. Check video 369 if having problems.
-  async isReserved() {
-    const existingOrder = await Order.findOne({
-      ticket: this._id,
-      status: {
-        $in: [OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Complete],
-      },
-    });
-
-    return !!existingOrder; // Double flipping the value so it's treated like bool
-  }
-}
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };

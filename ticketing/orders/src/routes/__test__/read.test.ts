@@ -6,7 +6,7 @@ const URI = '/api/orders';
 const COOKIE = global.createCookie;
 
 const buildTicket = async () => {
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });

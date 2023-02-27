@@ -14,12 +14,12 @@ it('returns an error if the ticket does not exist', async () => {
 });
 
 it('returns an error if the ticket is reserved', async () => {
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });
   await ticket.save();
-  const order = new Order({
+  const order = Order.build({
     ticket,
     userId: 'asdfasdf',
     status: OrderStatus.Created,
@@ -30,7 +30,7 @@ it('returns an error if the ticket is reserved', async () => {
 });
 
 it('reserves a ticket', async () => {
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });
@@ -40,7 +40,7 @@ it('reserves a ticket', async () => {
 
 // it.todo('emits an order created event'); // Cool!
 it('emits an order created event', async () => {
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });

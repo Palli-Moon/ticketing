@@ -9,7 +9,7 @@ const COOKIE = global.createCookie;
 
 it('marks an order as cancelled', async () => {
   const user = COOKIE();
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });
@@ -23,7 +23,7 @@ it('marks an order as cancelled', async () => {
 
 it('emits an order cancelled event', async () => {
   const user = COOKIE();
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title: 'concert',
     price: 20,
   });
