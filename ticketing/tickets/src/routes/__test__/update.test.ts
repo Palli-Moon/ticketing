@@ -12,7 +12,7 @@ const price = 20;
 
 const COOKIE = global.createCookie;
 const createTicket = async () => {
-  const ticket = new Ticket({ title, price, userId });
+  const ticket = Ticket.build({ title, price, userId });
   await ticket.save();
   return ticket;
 };
