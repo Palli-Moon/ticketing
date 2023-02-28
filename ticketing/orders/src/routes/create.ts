@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Ticket } from '../models/Ticket';
-import { Order } from '../models/Order';
+import { Order, OrderStatus } from '../models/Order';
 import { natsWrapper } from '../nats-wrapper';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
-import { requireAuth, validateRequest, BadRequestError, NotFoundError, OrderStatus } from '@ticketingtutorial/common';
+import { requireAuth, validateRequest, BadRequestError, NotFoundError } from '@ticketingtutorial/common';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60; // may want to be an env or other way where you can adjust this before deploying
