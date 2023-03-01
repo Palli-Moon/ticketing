@@ -18,10 +18,23 @@ it('implements optimistic concurrency control', async () => {
 
   await ticket1!.save();
   try {
-    await ticket2!.save();
+    await ticket2!.save(); // expect(() => {}).toThrow() is not working correctly here
   } catch (err) {
     return;
   }
 
   throw new Error('Should not reach this point');
+});
+
+it('increments the version number on multiple saves', async () => {
+  const ticket = Ticket.build({
+    title: 'concert',
+    price: 20,
+    userId: '123',
+  });
+
+  for (let i = 0; i < 5; i++) {
+    await ticket.save();
+    expect(ticket.version).toEqual(i);
+  }
 });
