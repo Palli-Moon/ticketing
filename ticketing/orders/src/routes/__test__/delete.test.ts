@@ -1,4 +1,5 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 import { app } from '../../app';
 import { Ticket } from '../../models/Ticket';
 import { Order, OrderStatus } from '../../models/Order';
@@ -10,6 +11,7 @@ const COOKIE = global.createCookie;
 it('marks an order as cancelled', async () => {
   const user = COOKIE();
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
   });
@@ -24,6 +26,7 @@ it('marks an order as cancelled', async () => {
 it('emits an order cancelled event', async () => {
   const user = COOKIE();
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
   });
