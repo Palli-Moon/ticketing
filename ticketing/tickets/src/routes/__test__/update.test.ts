@@ -54,3 +54,11 @@ it('publishes an event', async () => {
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
+
+it('rejects updates if the ticket is reserved', async () => {
+  const ticket = await createTicket();
+  ticket.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+  await ticket.save();
+
+  await request(app).put(`${URI}/${ticket.id}`).set('Cookie', COOKIE(userId)).send({ title: 'new title', price: 100 }).expect(400);
+});
