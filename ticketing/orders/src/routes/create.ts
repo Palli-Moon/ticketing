@@ -8,7 +8,7 @@ import { OrderCreatedPublisher } from '../events/publishers/order-created-publis
 import { requireAuth, validateRequest, BadRequestError, NotFoundError } from '@ticketingtutorial/common';
 
 const router = express.Router();
-const EXPIRATION_WINDOW_SECONDS = 15 * 60; // may want to be an env or other way where you can adjust this before deploying
+const EXPIRATION_WINDOW_SECONDS = 1 * 60; // may want to be an env or other way where you can adjust this before deploying
 
 router.post(
   '/api/orders',
