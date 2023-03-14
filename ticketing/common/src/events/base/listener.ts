@@ -30,7 +30,7 @@ export abstract class Listener<T extends Event> {
     const subscription = this.client.subscribe(this.subject, this.queueGroupName, this.subscriptionOptions());
 
     subscription.on('message', (msg: Message) => {
-      // console.log(`Message received: ${this.subject} / ${this.queueGroupName}`); // Maybe set this with parameter
+      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`); // Maybe set this with parameter
 
       const data = this.parseMessage(msg);
       this.onMessage(data, msg);
