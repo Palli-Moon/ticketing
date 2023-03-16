@@ -35,7 +35,7 @@ router.post(
       description: 'Udemy Microservices Ticketing Tutorial',
     });
 
-    res.send({ success: true });
+    res.status(201).send({ success: true });
   }
 );
 
