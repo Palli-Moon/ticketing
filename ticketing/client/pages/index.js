@@ -1,4 +1,5 @@
 // import buildClient from '../api/build-client';
+import Link from 'next/link';
 
 const LandingPage = ({ currentUser, tickets }) => {
   // console.log in here would be written in chrome (the browser)
@@ -8,6 +9,11 @@ const LandingPage = ({ currentUser, tickets }) => {
       <tr key={ticket.id}>
         <td>{ticket.title}</td>
         <td>{ticket.price}</td>
+        <td>
+          <Link href='/tickets/[ticketId]' as={`/tickets/${ticket.id}`}>
+            View
+          </Link>
+        </td>
       </tr>
     );
   });
@@ -20,6 +26,7 @@ const LandingPage = ({ currentUser, tickets }) => {
           <tr>
             <th>Title</th>
             <th>Price</th>
+            <th>Link</th>
           </tr>
         </thead>
         <tbody>{ticketList}</tbody>
