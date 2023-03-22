@@ -8,7 +8,7 @@ import { stripe } from '../stripe';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
-//change
+
 router.post(
   '/api/payments',
   requireAuth,
