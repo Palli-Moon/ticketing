@@ -3,6 +3,8 @@ import { app } from './app';
 
 mongoose.set('strictQuery', false); // Supress deprecation warning
 
+// This is a change
+
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY must be defined');
