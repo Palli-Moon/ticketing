@@ -53,6 +53,7 @@ See [here](redis-image/README.md) for build and image making commands.
 - `kubectl get secrets` lists secret instances.
 - `kubectl get namespace` lists namespaces.
 - `kubectl port-forward PODNAME PORTFROM:PORTTO` forwards PORTFROM to PORTTO on the PODNAME temporarily without having to create a configuration. Stops forwarding when hitting CTRL+C.
+- `kubectl config use-context CONTEXT` switch to the given CONTEXT. When using Docker desktop the context will be called _docker-desktop_.
 
 Secrets - note that a deployment/pod will fail creation if referencing a secret that does not exist.
 
