@@ -11,7 +11,8 @@ export default ({ req }) => {
     // use { headers: { Host: 'hostname' } } to help ingress figure out the hostname. It is also set inside req.headers
     // req.headers will also forward the cookie
     return axios.create({
-      baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      // baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', // Dev env
+      baseURL: 'http://www.palli.party/', // Prod env
       headers: req.headers,
     });
   } else {
