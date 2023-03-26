@@ -6,6 +6,7 @@ import Header from '../components/header';
 const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <>
+      <title>Super Tickets</title>
       <Header currentUser={currentUser} />
       <div className='container'>
         <Component currentUser={currentUser} {...pageProps} />
