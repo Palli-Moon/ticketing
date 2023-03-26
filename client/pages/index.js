@@ -1,6 +1,7 @@
 // import buildClient from '../api/build-client';
 import Link from 'next/link';
 
+//#
 const LandingPage = ({ currentUser, tickets }) => {
   // console.log in here would be written in chrome (the browser)
 

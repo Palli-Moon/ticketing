@@ -3,9 +3,7 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { errorHandler, NotFoundError, currentUser } from '@ticketingtutorial/common';
-import { createOrdersRouter } from './routes/create';
-import { readOrdersRouter } from './routes/read';
-import { deleteOrdersRouter } from './routes/delete';
+import { createChargeRouter } from './routes/create';
 
 const app = express();
 app.set('trust proxy', true);
@@ -13,14 +11,13 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: process.env.NODE_ENV !== 'test',
+    // secure: process.env.NODE_ENV !== 'test', // Dev env
+    secure: false, // Prod env
   })
 );
 app.use(currentUser);
 
-app.use(createOrdersRouter);
-app.use(readOrdersRouter);
-app.use(deleteOrdersRouter);
+app.use(createChargeRouter);
 
 app.all('*', () => {
   throw new NotFoundError();
