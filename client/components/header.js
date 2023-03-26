@@ -23,7 +23,7 @@ export default ({ currentUser }) => {
   return (
     <nav className='navbar navbar-light bg-light'>
       <Link href='/' className='navbar-brand'>
-        &nbsp;&nbsp;Nasty Tickets
+        &nbsp;&nbsp;Super Tickets
       </Link>
 
       <div className='d-flex justify-content-end'>
