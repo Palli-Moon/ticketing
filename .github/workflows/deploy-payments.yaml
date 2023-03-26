@@ -5,14 +5,14 @@ on:
     branches:
       - master
     paths:
-      - 'ticketing/payments/**'
+      - 'payments/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd ticketing/payments && docker build -t pallimoon/payments .
+      - run: cd payments && docker build -t pallimoon/payments .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env: # Secrets that have been set on the Github repo
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
