@@ -12,7 +12,7 @@ export default ({ req }) => {
     // req.headers will also forward the cookie
     return axios.create({
       // baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', // Dev env
-      baseURL: 'http://www.palli.party/', // Prod env
+      baseURL: 'http://tickets.palli.party/', // Prod env
       headers: req.headers,
     });
   } else {
