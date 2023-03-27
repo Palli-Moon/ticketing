@@ -1,6 +1,7 @@
 name: deploy-payments
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
